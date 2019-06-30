@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  mongo:
+    image: mongo:3
+    container_name: "mongo"
+    hostname: "mongo"
+    ports:
+      - "27017:27017"
+    volumes:
+      - './.volumes/mongo/data:/data/db'
+    networks:
+      - doc-network
+networks:
+  doc-network:
+    driver: bridge
