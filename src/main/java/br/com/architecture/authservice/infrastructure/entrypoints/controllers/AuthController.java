@@ -30,7 +30,7 @@ public class AuthController {
     public ResponseEntity<AuthOutDto> auth(@RequestBody @Valid AuthInDto inDto) {
 
         try {
-            Authentication authentication = authManager.authenticate(inDto.convert());
+            Authentication authentication = authManager.authenticate(inDto.convertToUserPasswdAuth());
             String token = tokenService.generateToken(authentication);
             return ResponseEntity.ok(new AuthOutDto(token, "Bearer"));
         } catch (AuthenticationException e) {

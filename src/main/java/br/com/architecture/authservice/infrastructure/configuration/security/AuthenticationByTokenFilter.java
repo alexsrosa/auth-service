@@ -26,24 +26,24 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String token = recuperarToken(request);
-		boolean valido = tokenService.isTokenValid(token);
-		if (valido) {
-			autenticarCliente(token);
+		String token = recoverToken(request);
+
+		if (tokenService.isTokenValid(token)) {
+			authenticate(token);
 		}
 		
 		filterChain.doFilter(request, response);
 	}
 
-	private void autenticarCliente(String token) {
-		String idUsuario = tokenService.getUserId(token);
-		UserEntity userEntity = userService.findById(idUsuario).get();
+	private void authenticate(String token) {
+		String userId = tokenService.getUserId(token);
+		UserEntity userEntity = userService.findById(userId).get();
 		UsernamePasswordAuthenticationToken authentication =
 				new UsernamePasswordAuthenticationToken(userEntity, null, userEntity.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
-	private String recuperarToken(HttpServletRequest request) {
+	private String recoverToken(HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
 		if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
 			return null;
