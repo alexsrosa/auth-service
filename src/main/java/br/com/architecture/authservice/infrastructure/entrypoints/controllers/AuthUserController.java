@@ -3,6 +3,10 @@ package br.com.architecture.authservice.infrastructure.entrypoints.controllers;
 import br.com.architecture.authservice.infrastructure.configuration.security.TokenService;
 import br.com.architecture.authservice.infrastructure.entrypoints.dtos.AuthInDto;
 import br.com.architecture.authservice.infrastructure.entrypoints.dtos.AuthOutDto;
+import br.com.architecture.authservice.infrastructure.exceptions.GeneralException;
+import br.com.architecture.authservice.infrastructure.exceptions.UnauthorizedException;
+import br.com.architecture.authservice.infrastructure.exceptions.UserNotFoundException;
+import br.com.architecture.authservice.usecases.AuthUserUsecase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -16,25 +20,19 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthUserController {
 
-    private final AuthenticationManager authManager;
-    private final TokenService tokenService;
+    private final AuthUserUsecase authUserUsecase;
 
-    public AuthController(AuthenticationManager authManager, TokenService tokenService) {
-        this.authManager = authManager;
-        this.tokenService = tokenService;
+    public AuthUserController(AuthUserUsecase authUserUsecase) {
+        this.authUserUsecase = authUserUsecase;
     }
 
     @PostMapping
     public ResponseEntity<AuthOutDto> auth(@RequestBody @Valid AuthInDto inDto) {
 
-        try {
-            Authentication authentication = authManager.authenticate(inDto.convertToUserPasswdAuth());
-            String token = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(new AuthOutDto(token, "Bearer"));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return authUserUsecase.authentication(inDto)
+                .map(ResponseEntity::ok)
+                .orElseThrow(UserNotFoundException::new);
     }
 }

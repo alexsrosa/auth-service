@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ public class UserEntity implements Serializable, UserDetails {
     private String name;
 
     @NotNull @Email
+    @Indexed(unique = true, name = "Email Unique")
     private String email;
 
     @NotNull

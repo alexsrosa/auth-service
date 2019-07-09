@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class EmailFoundException extends RuntimeException {
 
     public EmailFoundException() {
-        super("E-mail já existente");
+        super("Email Found!");
     }
 
     public EmailFoundException(String message) {
