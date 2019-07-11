@@ -1,6 +1,5 @@
 package br.com.architecture.authservice.usecases;
 
-import br.com.architecture.authservice.infrastructure.configuration.CryptPasswordConfiguration;
 import br.com.architecture.authservice.infrastructure.entrypoints.converters.UserEntityToUserOut;
 import br.com.architecture.authservice.infrastructure.entrypoints.converters.UserInToUserEntity;
 import br.com.architecture.authservice.infrastructure.entrypoints.dtos.UserInDto;

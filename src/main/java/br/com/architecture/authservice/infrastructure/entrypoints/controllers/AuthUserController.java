@@ -1,17 +1,10 @@
 package br.com.architecture.authservice.infrastructure.entrypoints.controllers;
 
-import br.com.architecture.authservice.infrastructure.configuration.security.TokenService;
 import br.com.architecture.authservice.infrastructure.entrypoints.dtos.AuthInDto;
 import br.com.architecture.authservice.infrastructure.entrypoints.dtos.AuthOutDto;
-import br.com.architecture.authservice.infrastructure.exceptions.GeneralException;
-import br.com.architecture.authservice.infrastructure.exceptions.UnauthorizedException;
 import br.com.architecture.authservice.infrastructure.exceptions.UserNotFoundException;
 import br.com.architecture.authservice.usecases.AuthUserUsecase;
-import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
