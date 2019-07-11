@@ -16,3 +16,17 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+# actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+info:
+  app:
+    name: '@project.name@'
+    version: '@project.version@'

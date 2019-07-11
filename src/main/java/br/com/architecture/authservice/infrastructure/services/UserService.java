@@ -4,7 +4,7 @@ import br.com.architecture.authservice.domain.entities.UserEntity;
 import br.com.architecture.authservice.infrastructure.configuration.CryptPasswordConfiguration;
 import br.com.architecture.authservice.infrastructure.exceptions.EmailFoundException;
 import br.com.architecture.authservice.infrastructure.repositories.UserMongoRepository;
-import com.mongodb.DuplicateKeyException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
 
         try{
             saved = repository.save(entity);
-        }catch (Exception duplicateKeyException){
+        }catch (DuplicateKeyException ex){
             throw new EmailFoundException();
         }
 

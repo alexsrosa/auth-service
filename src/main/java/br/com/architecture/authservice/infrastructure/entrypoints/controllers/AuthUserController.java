@@ -7,6 +7,7 @@ import br.com.architecture.authservice.infrastructure.exceptions.GeneralExceptio
 import br.com.architecture.authservice.infrastructure.exceptions.UnauthorizedException;
 import br.com.architecture.authservice.infrastructure.exceptions.UserNotFoundException;
 import br.com.architecture.authservice.usecases.AuthUserUsecase;
+import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
