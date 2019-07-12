@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,15 +29,20 @@ public class UserEntity implements Serializable, UserDetails {
     @Id
     private String id;
 
-    @NotNull
-    private String name;
+    private String firstName;
+
+    private String lastName;
 
     @NotNull @Email
-    @Indexed(unique = true, name = "Email Unique")
+    @Indexed(unique = true)
     private String email;
 
     @NotNull
     private String password;
+
+    private LocalDateTime dateCreated;
+
+    private LocalDateTime dateModified;
 
     @DBRef
     private List<ProfileEntity> profiles = new ArrayList<>();

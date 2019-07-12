@@ -1,6 +1,5 @@
 package br.com.architecture.authservice.infrastructure.entrypoints.dtos;
 
-import br.com.architecture.authservice.domain.entities.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +10,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class UserInDto {
 
-    @NotNull
-    private String name;
+    private String firstName;
+
+    private String lastName;
 
     @NotNull @Email
     private String email;

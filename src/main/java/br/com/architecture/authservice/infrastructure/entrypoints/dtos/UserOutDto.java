@@ -8,8 +8,9 @@ import lombok.Setter;
 public class UserOutDto {
 
     private String id;
-
-    private String name;
-
+    private String firstName;
+    private String lastName;
     private String email;
+    private String token;
+    private String tokenType;
 }

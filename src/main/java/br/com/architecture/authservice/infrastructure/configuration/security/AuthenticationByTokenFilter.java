@@ -14,16 +14,19 @@ import java.io.IOException;
 
 public class AuthenticationByTokenFilter extends OncePerRequestFilter {
 	
-	private TokenService tokenService;
-	private UserService userService;
+	private final TokenService tokenService;
+	private final UserService userService;
 
-	public AuthenticationByTokenFilter(TokenService tokenService, UserService userService) {
+	public AuthenticationByTokenFilter(TokenService tokenService,
+									   UserService userService) {
 		this.tokenService = tokenService;
 		this.userService = userService;
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request,
+									HttpServletResponse response,
+									FilterChain filterChain)
 			throws ServletException, IOException {
 		
 		String token = recoverToken(request);
@@ -39,7 +42,9 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter {
 		String userId = tokenService.getUserId(token);
 		UserEntity userEntity = userService.findById(userId).get();
 		UsernamePasswordAuthenticationToken authentication =
-				new UsernamePasswordAuthenticationToken(userEntity, null, userEntity.getAuthorities());
+				new UsernamePasswordAuthenticationToken(
+						userEntity, null,
+						userEntity.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 	}
 
@@ -49,7 +54,7 @@ public class AuthenticationByTokenFilter extends OncePerRequestFilter {
 			return null;
 		}
 		
-		return token.substring(7, token.length());
+		return token.substring(7);
 	}
 
 }
