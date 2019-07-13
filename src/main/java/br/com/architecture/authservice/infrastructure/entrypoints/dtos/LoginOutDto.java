@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthOutDto {
+public class LoginOutDto {
 
     private String email;
 
@@ -14,7 +14,7 @@ public class AuthOutDto {
 
     private String tokenType;
 
-    public AuthOutDto(String token, String tokenType) {
+    public LoginOutDto(String token, String tokenType) {
         this.token = token;
         this.tokenType = tokenType;
     }

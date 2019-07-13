@@ -40,7 +40,6 @@ public class SignupUsecase {
 
         if(optionalUserEntity.isPresent()){
             UserEntity userEntity = optionalUserEntity.get();
-
             UserOutDto outDto = userEntityToUserOut.convert(userEntity);
 
             if(Objects.nonNull(outDto)){
@@ -48,9 +47,10 @@ public class SignupUsecase {
                 Authentication authentication =
                         authManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(
-                                        userEntity.getEmail(), userEntity.getPassword()));
+                                        userInDto.getEmail(), userInDto.getPassword()));
 
                 outDto.setToken(tokenService.generateToken(authentication));
+                outDto.setTokenType(TokenService.BEAREN);
             }
 
             return Optional.ofNullable(outDto);

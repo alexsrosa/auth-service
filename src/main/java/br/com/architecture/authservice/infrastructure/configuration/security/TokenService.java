@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 public class TokenService {
@@ -18,6 +19,8 @@ public class TokenService {
 	
 	@Value("${auth.jwt.secret}")
 	private String secret;
+
+	public static final String BEAREN = "Bearer";
 
 	public String generateToken(Authentication authentication) {
 		UserEntity logged = (UserEntity) authentication.getPrincipal();
@@ -34,6 +37,10 @@ public class TokenService {
 	}
 
 	public boolean isTokenValid(String token) {
+		if(Objects.nonNull(token)){
+			return false;
+		}
+
 		try {
 			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
 			return true;

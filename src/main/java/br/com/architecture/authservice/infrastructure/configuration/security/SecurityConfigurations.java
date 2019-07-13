@@ -1,6 +1,7 @@
 package br.com.architecture.authservice.infrastructure.configuration.security;
 
 import br.com.architecture.authservice.infrastructure.services.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,23 +33,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
-	/**
-	 * Authentication Settings.
-	 *
-	 * @param auth
-	 * @throws Exception
-	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
-	/**
-	 * Authentication Settings.
-	 *
-	 * @param http
-	 * @throws Exception
-	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -57,16 +46,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new AuthenticationByTokenFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//		.and().addFilterBefore(new AuthenticationByTokenFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
 	}
 
-	/**
-	 * Static resource settings (js, css, images, etc.)
-	 *
-	 * @param web
-	 * @throws Exception
-	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");

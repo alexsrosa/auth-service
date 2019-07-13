@@ -19,10 +19,6 @@ configurations {
     }
 }
 
-bootRun {
-    addResources = true
-}
-
 repositories {
     mavenCentral()
 }

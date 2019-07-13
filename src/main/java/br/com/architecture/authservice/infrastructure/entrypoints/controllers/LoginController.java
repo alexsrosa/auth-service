@@ -1,9 +1,9 @@
 package br.com.architecture.authservice.infrastructure.entrypoints.controllers;
 
-import br.com.architecture.authservice.infrastructure.entrypoints.dtos.AuthInDto;
-import br.com.architecture.authservice.infrastructure.entrypoints.dtos.AuthOutDto;
+import br.com.architecture.authservice.infrastructure.entrypoints.dtos.LoginInDto;
+import br.com.architecture.authservice.infrastructure.entrypoints.dtos.LoginOutDto;
 import br.com.architecture.authservice.infrastructure.exceptions.UserNotFoundException;
-import br.com.architecture.authservice.usecases.AuthUserUsecase;
+import br.com.architecture.authservice.usecases.LoginUsecase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
-public class AuthUserController {
+@RequestMapping("/login")
+public class LoginController {
 
-    private final AuthUserUsecase authUserUsecase;
+    private final LoginUsecase loginUsecase;
 
-    public AuthUserController(AuthUserUsecase authUserUsecase) {
-        this.authUserUsecase = authUserUsecase;
+    public LoginController(LoginUsecase loginUsecase) {
+        this.loginUsecase = loginUsecase;
     }
 
     @PostMapping
-    public ResponseEntity<AuthOutDto> auth(@RequestBody @Valid AuthInDto inDto) {
+    public ResponseEntity<LoginOutDto> login(@RequestBody @Valid LoginInDto inDto) {
 
-        return authUserUsecase.authentication(inDto)
+        return loginUsecase.authentication(inDto)
                 .map(ResponseEntity::ok)
                 .orElseThrow(UserNotFoundException::new);
     }
