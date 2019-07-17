@@ -22,6 +22,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	private final UserService userService;
 	private final TokenService tokenService;
 
+	@Value("${server.servlet.context-path}")
+	private String path;
+
 	public SecurityConfigurations(UserService userService, TokenService tokenService) {
 		this.userService = userService;
 		this.tokenService = tokenService;
@@ -41,17 +44,22 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST, "/auth").permitAll()
-		.antMatchers(HttpMethod.POST, "/signup").permitAll()
+		.antMatchers(HttpMethod.POST, path + "/auth").permitAll()
+		.antMatchers(HttpMethod.POST, path + "/signup").permitAll()
 		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		.and().addFilterBefore(new AuthenticationByTokenFilter(tokenService, userService), UsernamePasswordAuthenticationFilter.class);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().addFilterBefore(new AuthenticationByTokenFilter(tokenService, userService),
+				UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
+		web.ignoring().antMatchers(
+				"/**.html",
+				"/v2/api-docs", "/webjars/**",
+				"/configuration/**",
+				"/swagger-resources/**");
 	}
 }

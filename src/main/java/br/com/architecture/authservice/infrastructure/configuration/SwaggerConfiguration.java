@@ -3,6 +3,7 @@ package br.com.architecture.authservice.infrastructure.configuration;
 import br.com.architecture.authservice.domain.entities.UserEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -19,8 +20,8 @@ public class SwaggerConfiguration {
     public Docket architeture() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.architeture"))
-                .paths(PathSelectors.ant("/**"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                .paths(PathSelectors.any())
                 .build()
                 .ignoredParameterTypes(UserEntity.class)
                 .globalOperationParameters(Arrays.asList(
